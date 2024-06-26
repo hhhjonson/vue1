@@ -1,15 +1,14 @@
 <script setup lang="ts">
 import { ref,reactive } from 'vue'
-import type {FormInstance,FormRules} from "element-plus"
+import {ElMessage, type FormInstance,type FormRules} from "element-plus"
 import {login} from '@/api/users.ts'
-import process from 'process';
 
 
 
 // 表单响应式数据
 const form = reactive({
-  account:"18000000000",
-  password:"123456",
+  email:"",
+  password:"",
 })
 
 
@@ -32,7 +31,7 @@ const onSubmit = async () => {
 
 //定义表单校验规则
 const rules = reactive<FormRules>({
-    account:[
+    email:[
         { required:true,message:"账号不能为空",trigger:"blur" },
         { pattern:/^1\d{10}$/,message:"必须是11位数字",trigger:"blur"},
     ],
@@ -50,8 +49,8 @@ const redirectUri = ref();
 const loginWithMicrosoft=async () => {  
   try {  
     
-    clientId.value = process.env.VUE_APP_CLIENT_ID;
-    redirectUri.value = process.env.VUE_APP_REDIRECT_URL;
+    clientId.value = import.meta.env.VITE_APP_CLIENT_ID;
+    redirectUri.value = import.meta.env.VITE_APP_REDIRECT_URL;
     navigateToAuthUrl(); 
     
   } catch (error) {  
@@ -84,29 +83,44 @@ const navigateToAuthUrl = () => {
 <template>
 <div class="login">
   <el-form :model="form"  :rules="rules" ref="formRef" label-width="120px" label-position="top" size="large">
-    <h2>登录</h2>
-    <el-form-item label="账号" prop="account">
-      <el-input v-model="form.account" />
+    <div class="title">
+      Wicresoft RecruitAI
+    </div>
+
+    <el-form-item label="email" prop="email">
+      <el-input v-model="form.email" placeholder="Please enter your email"/>
     </el-form-item>
 
-    <el-form-item label="密码" prop="password">
-      <el-input v-model="form.password" />
+    <el-form-item label="password" prop="password">
+      <el-input v-model="form.password" placeholder="Please enter your password" />
     </el-form-item>
-
-    <el-form-item>
-       <button @click="loginWithMicrosoft">登录 with Microsoft</button> 
-    </el-form-item>
-   
 
     <el-form-item>
-      <el-button type="primary" @click="onSubmit">登录</el-button>
-      
+      <el-button type="primary" @click="onSubmit">Login</el-button>
     </el-form-item>
+
+    <div class="login-option-text">  
+      —— Or Login Using Your Work Account ——
+    </div> 
+
+    <button type="button" class="icon-button" @click="loginWithMicrosoft">
+      <svg  xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-microsoft" viewBox="0 0 16 16">
+          <path d="M7.462 0H0v7.19h7.462V0zM16 0H8.538v7.19H16V0zM7.462 8.211H0V16h7.462V8.211zm8.538 0H8.538V16H16V8.211z"/>
+      </svg>
+    </button>
+
+    
   </el-form>
 </div>
 </template>
 
 <style lang="scss" scoped>
+.title{
+  color:rgba(0, 132, 255, 0.918);
+  text-align: center;
+  font-size:30px;
+}
+
 .login {
     background-color: #ddd;
     height:100vh;
@@ -119,7 +133,8 @@ const navigateToAuthUrl = () => {
         background:#fff;
         padding:30px;
         border-radius: 10px;
-
+        
+      
 
         .el-form-item{
             margin-top:20px;
@@ -135,4 +150,22 @@ const navigateToAuthUrl = () => {
         }
     }
 }
+
+.login-option-text{
+  margin-top: 10px; 
+  font-size: 10px; 
+  color: #999; 
+  text-align: center; 
+}
+
+.icon-button{
+  display: block;
+  margin-top:10px;
+  margin-left:auto;
+  margin-right:auto;
+  cursor:pointer;
+  
+}
+
+
 </style>
