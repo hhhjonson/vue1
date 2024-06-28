@@ -8,20 +8,24 @@
       "path": "./tsconfig.app.json"
     }
   ],
-  "compilerOptions": {  
-    "module": "commonjs",  
-    "target": "es2017",  
-    "lib": ["es2017", "dom", "node"],  
-    "strict": true, 
-    "esModuleInterop": true,  
-    "skipLibCheck": true   
+  "compilerOptions": {
+    "module": "CommonJS",
+    "target": "es2017",
+    "lib": [
+      "es2017",
+      "dom",
+      "node"
+    ],
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true
     // 其他配置...  
-  },  
-  "include": [ 
-    "src/**/*"  
-  ],  
-  "exclude": [ 
-    "node_modules",  
-    "**/*.spec.ts"  
-  ],  
+  },
+  "include": [
+    "src/**/*"
+  ],
+  "exclude": [
+    "node_modules",
+    "**/*.spec.ts"
+  ],
 }

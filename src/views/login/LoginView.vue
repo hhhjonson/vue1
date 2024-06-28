@@ -2,6 +2,9 @@
 import { ref,reactive } from 'vue'
 import {ElMessage, type FormInstance,type FormRules} from "element-plus"
 import {login} from '@/api/users.ts'
+  
+  
+
 
 
 
@@ -42,40 +45,16 @@ const rules = reactive<FormRules>({
 })
 
 
-const clientId = ref();  
-const redirectUri = ref();  
 
-//获取配置信息，将用户重定向到授权Url（Microsoft)登录页面
-const loginWithMicrosoft=async () => {  
-  try {  
-    
-    clientId.value = import.meta.env.VITE_APP_CLIENT_ID;
-    redirectUri.value = import.meta.env.VITE_APP_REDIRECT_URL;
-    navigateToAuthUrl(); 
-    
+//调取后端构建授权url的接口,重定向到授权url界面
+function loginWithMicrosoft(){
+  try { 
+      window.location.href =  "http://fakedomain.local:5000/generate-auth-url"
+
   } catch (error) {  
     console.error('Failed :', error);  
   }  
 };  
-
-//构建授权Url
-const navigateToAuthUrl = () => {
-  if (!clientId.value || !redirectUri.value) {  
-    console.error('Client ID or Redirect URI is missing.');  
-    return; 
-  }
-    
-    const params = new URLSearchParams({  
-    client_id: clientId.value,  
-    response_type: 'code',  
-    redirect_uri: redirectUri.value,  
-    scope: 'https://graph.microsoft.com/mail.read',  
-    // 其他可选参数...  
-  });  
-  const authUrl = 'https://login.microsoftonline.com/415c0250-db82-439e-b52a-e1aa43ca1ba1/oauth2/v2.0/authorize?' + params.toString(); 
-
-  window.location.href = authUrl;
-};
 
 
 </script>
@@ -109,7 +88,6 @@ const navigateToAuthUrl = () => {
       </svg>
     </button>
 
-    
   </el-form>
 </div>
 </template>
